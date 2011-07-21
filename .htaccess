@@ -452,6 +452,13 @@ Options -Indexes
   RewriteRule "(^|/)\." - [F]
 </IfModule>
 
+# Suppress the footer message which is appended to the documents Apache generates.
+ServerSignature Off
+
+# Remove server information like PHP version from X-Powered-By header.
+<IfModule mod_headers.c>
+  Header unset X-Powered-By
+</IfModule>
 
 # If your server is not already configured as such, the following directive
 # should be uncommented in order to set PHP's register_globals option to OFF.
