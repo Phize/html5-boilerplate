@@ -33,11 +33,7 @@
   <IfModule mod_headers.c>
     BrowserMatch MSIE ie
 
-    SetEnvIfNoCase Request_URI \.(?:tiff?)$ no-xuac
-    SetEnvIfNoCase Request_URI \.(?:swf|flv|pdf)$ no-xuac
-    SetEnvIfNoCase Request_URI \.(?:mp3)$ no-xuac
-    SetEnvIfNoCase Request_URI \.(?:avi|mov|wmv|rm|mpe?g)$ no-xuac
-    SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-xuac
+    SetEnvIfNoCase Request_URI \.(?:tiff?|swf|flv|pdf|mp3|avi|mov|wmv|rm|mpe?g|exe|t?gz|zip|bz2|sit|rar)$ no-xuac
     SetEnvIfNoCase Request_URI \.(?:css|js|htc|vcf|json|atom|rss|ico|gif|png|jpe?g|webp|oga|ogg|m4a|ogv|mp4|m4v|webm|ttf|ttc|woff|eot|otf|svg|svgz|appcache|manifest|htc|crx|xpi|safariextz)$ no-xuac
 
     Header set X-UA-Compatible "IE=Edge,chrome=1" env=ie
@@ -59,11 +55,7 @@
 
 # <IfModule mod_setenvif.c>
 #   <IfModule mod_headers.c>
-#     SetEnvIfNoCase Request_URI \.(?:tiff?)$ no-xuac
-#     SetEnvIfNoCase Request_URI \.(?:swf|flv|pdf)$ no-xuac
-#     SetEnvIfNoCase Request_URI \.(?:mp3)$ no-xuac
-#     SetEnvIfNoCase Request_URI \.(?:avi|mov|wmv|rm|mpe?g)$ no-xuac
-#     SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-xuac
+#     SetEnvIfNoCase Request_URI \.(?:tiff?|swf|flv|pdf|mp3|avi|mov|wmv|rm|mpe?g|exe|t?gz|zip|bz2|sit|rar)$ no-xuac
 #     SetEnvIfNoCase Request_URI \.(?:css|js|htc|vcf|json|atom|rss|ico|gif|png|jpe?g|webp|oga|ogg|m4a|ogv|mp4|m4v|webm|ttf|ttc|woff|eot|otf|svg|svgz|appcache|manifest|htc|crx|xpi|safariextz)$ no-xuac
 #
 #     Header set X-UA-Compatible "IE=Edge,chrome=1" env=!no-xuac
@@ -165,11 +157,7 @@ AddType text/x-vcard                   vcf
 <IfModule mod_deflate.c>
 <IfModule mod_setenvif.c>
   # Don't add 'Vary: Accept-Encoding' header for resources which won't be gzipped.
-  SetEnvIfNoCase Request_URI \.(?:tiff?)$ dont-vary
-  SetEnvIfNoCase Request_URI \.(?:swf|flv|pdf)$ dont-vary
-  SetEnvIfNoCase Request_URI \.(?:mp3)$ dont-vary
-  SetEnvIfNoCase Request_URI \.(?:avi|mov|wmv|rm|mpe?g)$ dont-vary
-  SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ dont-vary
+  SetEnvIfNoCase Request_URI \.(?:tiff?|swf|flv|pdf|mp3|avi|mov|wmv|rm|mpe?g|exe|t?gz|zip|bz2|sit|rar)$ dont-vary
   SetEnvIfNoCase Request_URI \.(?:ico|gif|png|jpe?g|webp|oga|ogg|m4a|ogv|mp4|m4v|webm|woff|crx|xpi|safariextz)$ dont-vary
 
   # Force deflate for mangled headers developer.yahoo.com/blogs/ydn/posts/2010/12/pushing-beyond-gzipping/
