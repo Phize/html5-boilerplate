@@ -25,10 +25,23 @@
 #  github.com/rails/rails/commit/123eb25#commitcomment-118920
 # Use ChromeFrame if it's installed for a better experience for the poor IE folk
 
+# Option 1:
+# Send 'X-UA-Compatible: IE=Edge,chrome=1' to IE, except for some resources.
+# Append 'User-Agent' header to 'User-Agent' for all browsers.
+
 <IfModule mod_setenvif.c>
   <IfModule mod_headers.c>
     BrowserMatch MSIE ie
+
+    SetEnvIfNoCase Request_URI \.(?:tiff?)$ no-xuac
+    SetEnvIfNoCase Request_URI \.(?:swf|flv|pdf)$ no-xuac
+    SetEnvIfNoCase Request_URI \.(?:mp3)$ no-xuac
+    SetEnvIfNoCase Request_URI \.(?:avi|mov|wmv|rm|mpe?g)$ no-xuac
+    SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-xuac
+    SetEnvIfNoCase Request_URI \.(?:css|js|htc|vcf|json|atom|rss|ico|gif|png|jpe?g|webp|oga|ogg|m4a|ogv|mp4|m4v|webm|ttf|ttc|woff|eot|otf|svg|svgz|appcache|manifest|htc|crx|xpi|safariextz)$ no-xuac
+
     Header set X-UA-Compatible "IE=Edge,chrome=1" env=ie
+    Header unset X-UA-Compatible env=no-xuac
   </IfModule>
 </IfModule>
 
@@ -38,6 +51,24 @@
   Header append Vary User-Agent
 # Cache control is set only if mod_headers is enabled, so that's unnecessary to declare
 </IfModule>
+
+# ----------------------------------------------------------------------
+
+# Option 2:
+# Send 'X-UA-Compatible: IE=Edge,chrome=1' to all browsers, except for some resources.
+
+# <IfModule mod_setenvif.c>
+#   <IfModule mod_headers.c>
+#     SetEnvIfNoCase Request_URI \.(?:tiff?)$ no-xuac
+#     SetEnvIfNoCase Request_URI \.(?:swf|flv|pdf)$ no-xuac
+#     SetEnvIfNoCase Request_URI \.(?:mp3)$ no-xuac
+#     SetEnvIfNoCase Request_URI \.(?:avi|mov|wmv|rm|mpe?g)$ no-xuac
+#     SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-xuac
+#     SetEnvIfNoCase Request_URI \.(?:css|js|htc|vcf|json|atom|rss|ico|gif|png|jpe?g|webp|oga|ogg|m4a|ogv|mp4|m4v|webm|ttf|ttc|woff|eot|otf|svg|svgz|appcache|manifest|htc|crx|xpi|safariextz)$ no-xuac
+#
+#     Header set X-UA-Compatible "IE=Edge,chrome=1" env=!no-xuac
+#   </IfModule>
+# </IfModule>
 
 
 # ----------------------------------------------------------------------
