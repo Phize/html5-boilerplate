@@ -62,7 +62,7 @@
 # Alternatively you could only whitelist your
 # subdomains like "subdomain.example.com".
 
-<FilesMatch "\.(ttf|ttc|otf|eot|woff|font.css)$">
+<FilesMatch "\.(?:ttf|ttc|otf|eot|woff|font.css)$">
   <IfModule mod_headers.c>
     Header set Access-Control-Allow-Origin "*"
   </IfModule>
@@ -120,7 +120,7 @@ AddType text/x-vcard                   vcf
 # concatenate and minify them manually.
 # Disabled by default.
 
-# <FilesMatch "\.combined\.(js|css)$">
+# <FilesMatch "\.combined\.(?:js|css)$">
 #   Options +Includes
 #   SetOutputFilter INCLUDES
 # </FilesMatch>
@@ -136,7 +136,7 @@ AddType text/x-vcard                   vcf
 # Force deflate for mangled headers developer.yahoo.com/blogs/ydn/posts/2010/12/pushing-beyond-gzipping/
 <IfModule mod_setenvif.c>
   <IfModule mod_headers.c>
-    SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s,?\s(gzip|deflate)?|X{4,13}|~{4,13}|-{4,13})$ HAVE_Accept-Encoding
+    SetEnvIfNoCase ^(?:Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^(?:(?:gzip|deflate)\s,?\s(?:gzip|deflate)?|X{4,13}|~{4,13}|-{4,13})$ HAVE_Accept-Encoding
     RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
   </IfModule>
 </IfModule>
@@ -449,7 +449,7 @@ Options -Indexes
 # Block access to "hidden" directories whose names begin with a period. This
 # includes directories used by version control systems such as Subversion or Git.
 <IfModule mod_rewrite.c>
-  RewriteRule "(^|/)\." - [F]
+  RewriteRule "(?:^|/)\." - [F]
 </IfModule>
 
 # Suppress the footer message which is appended to the documents Apache generates.
