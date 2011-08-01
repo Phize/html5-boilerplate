@@ -97,6 +97,12 @@
 # Proper MIME type for all files
 # ----------------------------------------------------------------------
 
+
+# JavaScript
+#   Normalize to standard type (it's sniffed in IE anyways) 
+#   tools.ietf.org/html/rfc4329#section-7.2
+AddType application/javascript         js
+
 # Audio
 AddType audio/ogg                      oga ogg
 AddType audio/mp4                      m4a
@@ -106,7 +112,8 @@ AddType video/ogg                      ogv
 AddType video/mp4                      mp4 m4v
 AddType video/webm                     webm
 
-# Proper svg serving. Required for svg webfonts on iPad
+# SVG.
+#   Required for svg webfonts on iPad
 #   twitter.com/FontSquirrel/status/14855840545
 AddType     image/svg+xml              svg svgz
 AddEncoding gzip                       svgz
@@ -180,7 +187,6 @@ AddType text/x-vcard                   vcf
   FilterDeclare   COMPRESS
   FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/html
   FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/css
-  FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/javascript
   FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/plain
   FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/xml
   FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/x-component
@@ -189,7 +195,6 @@ AddType text/x-vcard                   vcf
   FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/javascript
   FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/json
   FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/xml
-  FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/x-javascript
   FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/xhtml+xml
   FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/rss+xml
   FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/atom+xml
@@ -205,7 +210,7 @@ AddType text/x-vcard                   vcf
 <IfModule !mod_filter.c>
   # Legacy versions of Apache
   AddOutputFilterByType DEFLATE text/html text/plain text/css application/json
-  AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/javascript
   AddOutputFilterByType DEFLATE text/xml application/xml text/x-component
   AddOutputFilterByType DEFLATE text/cache-manifest text/x-vcard
   AddOutputFilterByType DEFLATE application/xhtml+xml application/rss+xml application/atom+xml
@@ -283,8 +288,6 @@ AddType text/x-vcard                   vcf
 # CSS and JavaScript
   ExpiresByType text/css                      "access plus 1 year"
   ExpiresByType application/javascript        "access plus 1 year"
-  ExpiresByType application/x-javascript      "access plus 1 year"
-  ExpiresByType text/javascript               "access plus 1 year"
 
   <IfModule mod_headers.c>
     Header append Cache-Control "public"
