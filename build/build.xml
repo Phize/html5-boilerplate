@@ -516,15 +516,8 @@
         </concat>
 
         <checksum file="${dir.intermediate}/${dir.js}/scripts-concat.min.js" algorithm="sha" property="scripts.sha" />
-        <if>
-            <isset property="gae.js_dir" />
-            <then>
-                <property name="scripts.js" value="${gae.js_dir}/${scripts.sha}.js" />
-            </then>
-            <else>
-                <property name="scripts.js" value="${dir.js}/${scripts.sha}.js" />
-            </else>
-        </if>
+
+        <property name="scripts.js" value="${dir.js}/${scripts.sha}.js" />
         <copy file="${dir.intermediate}/${dir.js}/scripts-concat.min.js" tofile="${dir.publish}/${dir.js}/${scripts.sha}.js" />
     </target>
 
@@ -616,14 +609,15 @@
 
         <echo message="Update the HTML to reference our concatenated script file: ${scripts.js}"/>
         <!-- style.css replacement handled as a replacetoken above -->
-        <replaceregexp match="&lt;!-- scripts concatenated [\d\w\s\W]*?!-- end ((scripts)|(concatenated and minified scripts))--&gt;" replace="&lt;script defer src='${scripts.js}\'&gt;&lt;/script&gt;" flags="m">
+        <replaceregexp match="&lt;!-- scripts concatenated [\d\w\s\W]*?!-- end ((scripts)|(concatenated and minified scripts))\s?--&gt;" replace="&lt;script defer src='${scripts.js}\'&gt;&lt;/script&gt;" flags="m">
             <fileset dir="${dir.intermediate}" includes="${page-files}"/>
         </replaceregexp>
         <!--[! use comments like this one to avoid having them get minified -->
 
         <echo message="Updating the HTML with the new css filename: ${style.css}"/>
 
-        <replaceregexp match="&lt;!-- CSS concatenated [\d\w\s\W]*?!-- end CSS--&gt;" replace="&lt;link rel='stylesheet' href='${style.css}'&gt;" flags="m">
+        <replaceregexp match="&lt;link rel=['&quot;]?stylesheet['&quot;]?\s+href=['&quot;]?(.*)/style.css(?:\?.*)?['&quot;]?\s*&gt;" 
+        	replace="&lt;link rel='stylesheet' href='\1/${css.sha}.css'&gt;" flags="m">
             <fileset dir="${dir.intermediate}" includes="${page-files}"/>
         </replaceregexp>
 
@@ -841,7 +835,7 @@
         <move file="${dir.source}/${dir.css}/${file.root.stylesheet}.temp" tofile="${dir.source}/${dir.css}/${file.root.stylesheet}" overwrite="false"/>
     </target>
 
-    <target name="-css" depends="-mkdirs" description="Concatenates and Minifies any stylesheets listed in the file.stylesheets property">
+    <target name="-css" depends="-mkdirs" description="Concatenates and Minifies any stylesheets @imported via the file.stylesheets">
         <echo message="Concatenating any @imports..."/>
 
         <!-- copy source file to intermediate directory -->
@@ -900,15 +894,7 @@
         </apply>
 
         <checksum file="${dir.intermediate}/${dir.css}/style-concat.min.css" algorithm="sha" property="css.sha" />
-        <if>
-            <isset property="gae.css_dir" />
-            <then>
-                <property name="style.css" value="${gae.css_dir}/${css.sha}.css" />
-            </then>
-            <else>
-                <property name="style.css" value="${dir.css}/${css.sha}.css" />
-            </else>
-        </if>
+        <property name="style.css" value="${dir.css}/${css.sha}.css" />
         <copy file="${dir.intermediate}/${dir.css}/style-concat.min.css" tofile="${dir.publish}/${dir.css}/${css.sha}.css" />
 
         <echo message="Minifying any unconcatenated css files..."/>
