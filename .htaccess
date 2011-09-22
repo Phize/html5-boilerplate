@@ -11,7 +11,7 @@
 
 
 ###
-### If you run a webserver other than apache, consider:
+### If you run a webserver other than Apache, consider:
 ### github.com/paulirish/html5-boilerplate-server-configs
 ###
 
@@ -85,11 +85,11 @@
 # Alternatively you could only whitelist your
 # subdomains like "subdomain.example.com".
 
-<FilesMatch "\.(?:ttf|ttc|otf|eot|woff|font.css)$">
-  <IfModule mod_headers.c>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(?:ttf|ttc|otf|eot|woff|font.css)$">
     Header set Access-Control-Allow-Origin "*"
-  </IfModule>
-</FilesMatch>
+  </FilesMatch>
+</IfModule>
 
 
 
